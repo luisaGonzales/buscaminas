@@ -1,12 +1,11 @@
 "use strict";
 
 const buscaminas = {
-    max : 8,//inpt;
-    clicks : 0,
-    minas : buscaminas.crearJuego(buscaminas.max),
-    tablero : document.getElementById("tablerominas"),
-    btnStart : document.getElementById("start"),
-    btnReset : document.getElementById("reset"),
+    max: 8, //inpt;
+    clicks: 0,
+    tablero: document.getElementById("tablerominas"),
+    btnStart: document.getElementById("start"),
+    btnReset: document.getElementById("reset"),
     crearJuego: function (max) {
         let tabla = [];
         for (let i = 0; i < max; i++) {
@@ -14,9 +13,12 @@ const buscaminas = {
         }
         return tabla;
     },
+    minas: function () {
+        buscaminas.crearJuego(buscaminas.max)
+    },
     crearArr: function (max) {
         let arr = [];
-        for (let i = 0; i < max; i++){
+        for (let i = 0; i < max; i++) {
             arr[i] = 0;
         }
         return arr;
@@ -43,7 +45,7 @@ const buscaminas = {
                 divTablero.appendChild(div);
             }
         }
-        tablero.appendChild(divTablero);
+        buscaminas.tablero.appendChild(divTablero);
     },
     mostrarNumero: function (e) {
         let divID = this.id.split("");
@@ -60,19 +62,19 @@ const buscaminas = {
             } else {
                 divClickeado.classList.add("bomba");
                 let espacios = document.getElementsByClassName("espacio");
-                for(let i = 0; i < espacios.length; i++){
-                    espacios[i].removeEventListener("click", buscaminas.mostrarNumero,true);
-                    espacios[i].removeEventListener("dblclick", buscaminas.ponerBandera,true);		
+                for (let i = 0; i < espacios.length; i++) {
+                    espacios[i].removeEventListener("click", buscaminas.mostrarNumero, true);
+                    espacios[i].removeEventListener("dblclick", buscaminas.ponerBandera, true);
                 }
                 buscaminas.abrirTablero(buscaminas.minas, buscaminas.max);
             }
         }
-    
+
         function crearPosiciones() {
             return divID[0] + divID[1];
         }
     },
-    ponerBandera: function (e){
+    ponerBandera: function (e) {
         e.preventDefault();
         let divID = this.id.split("");
         let posicion = divID[0] + divID[1];
@@ -111,10 +113,10 @@ const buscaminas = {
         let filas = 0;
         let columnas = 0;
         let num = max - 1;
-    
+
         filas = Math.floor((Math.random() * num) + 0);
         columnas = Math.floor((Math.random() * num) + 0);
-    
+
         for (let i = 0; i < max; i++) {
             while (tablero[filas][columnas] == "*") {
                 filas = Math.floor((Math.random() * num) + 0);
@@ -181,17 +183,17 @@ const buscaminas = {
             }
         }
     },
-    cargarJuego: function (){
-        clicks += 1;
-        if(clicks == 1){
+    cargarJuego: function () {
+        buscaminas.clicks += 1;
+        if (buscaminas.clicks == 1) {
             buscaminas.crearTablero(buscaminas.max);
             buscaminas.generarBombas(buscaminas.minas, buscaminas.max);
             buscaminas.ponerNumeros(buscaminas.minas, buscaminas.max);
             btnStart.classList.add("no-display");
             btnReset.classList.remove("no-display");
-        } 
+        }
     },
-    reset: function (){
+    reset: function () {
         $("#tablero").remove();
         buscaminas.crearTablero(buscaminas.max);
         buscaminas.generarBombas(buscaminas.minas);
@@ -199,10 +201,6 @@ const buscaminas = {
     }
 };
 
-btnStart.onclick = function (){
-	buscaminas.cargarJuego();
+buscaminas.btnStart.onclick = function () {
+    buscaminas.cargarJuego();
 }
-
-
-
-
